@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { products } from '../data';
 import { Product } from '../types';
-import { Eye, ShoppingCart, Search, ChevronRight, ChevronLeft, Image as ImageIcon } from 'lucide-react';
+import { Eye, ShoppingCart, Search, ChevronRight, ChevronLeft, Image as ImageIcon, Layers } from 'lucide-react';
 
 interface ProductListProps {
     onProductClick: (product: Product) => void;
@@ -35,26 +35,29 @@ const ProductCard = ({ product, onClick, onAdd }: { product: Product, onClick: (
 
     return (
         <div 
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-transparent dark:border-gray-700 h-full"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 h-full"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* منطقة الصورة مع السلايدر */}
-            <div className="relative h-64 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+            <div className="relative aspect-[4/5] bg-gray-100 dark:bg-gray-900 overflow-hidden">
                 <img 
                     src={product.images[currentImageIndex]} 
                     alt={product.name} 
-                    className="w-full h-full object-cover transition-transform duration-500"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onClick={onClick} // عند الضغط على الصورة نذهب للتفاصيل
                     style={{ cursor: 'pointer' }}
                     onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300?text=No+Image";
+                        (e.target as HTMLImageElement).src = "https://placehold.co/600x800/202020/FFF?text=No+Image";
                     }}
                 />
                 
+                {/* طبقة تدرج خفيفة في الأسفل لجعل النقاط واضحة */}
+                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 to-transparent opacity-60 pointer-events-none" />
+
                 {/* شارة التخفيض */}
                 {product.oldPrice && (
-                    <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
+                    <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-10 animate-pulse">
                         تخفيض
                     </div>
                 )}
@@ -62,28 +65,26 @@ const ProductCard = ({ product, onClick, onAdd }: { product: Product, onClick: (
                 {/* أزرار التنقل (تظهر فقط إذا كان هناك أكثر من صورة) */}
                 {product.images.length > 1 && (
                     <>
-                        <div className={`absolute inset-0 flex items-center justify-between px-2 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0 md:opacity-0'}`}>
-                            <button 
-                                onClick={nextImage}
-                                className="bg-black/50 hover:bg-black/70 text-white p-1 rounded-full backdrop-blur-sm transition transform hover:scale-110"
-                            >
-                                <ChevronRight size={20} />
-                            </button>
-                            <button 
-                                onClick={prevImage}
-                                className="bg-black/50 hover:bg-black/70 text-white p-1 rounded-full backdrop-blur-sm transition transform hover:scale-110"
-                            >
-                                <ChevronLeft size={20} />
-                            </button>
-                        </div>
+                        <button 
+                            onClick={nextImage}
+                            className={`absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-2 rounded-full transition-all duration-300 hover:scale-110 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
+                        >
+                            <ChevronRight size={24} />
+                        </button>
+                        <button 
+                            onClick={prevImage}
+                            className={`absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-2 rounded-full transition-all duration-300 hover:scale-110 ${isHovered ? 'opacity-100 -translate-x-0' : 'opacity-0 -translate-x-4'}`}
+                        >
+                            <ChevronLeft size={24} />
+                        </button>
                         
                         {/* مؤشر الصور (النقاط) */}
-                        <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-10">
+                        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10">
                             {product.images.map((_, idx) => (
                                 <div 
                                     key={idx}
-                                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm ${
-                                        idx === currentImageIndex ? 'bg-white w-3' : 'bg-white/50'
+                                    className={`h-1.5 rounded-full transition-all duration-300 shadow-sm backdrop-blur-sm ${
+                                        idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/40 w-1.5'
                                     }`}
                                 />
                             ))}
@@ -93,20 +94,20 @@ const ProductCard = ({ product, onClick, onAdd }: { product: Product, onClick: (
 
                 {/* أيقونة توضح أن المنتج يحتوي على ألبوم */}
                 {product.images.length > 1 && (
-                    <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded flex items-center gap-1">
-                        <ImageIcon size={10} />
-                        <span>{product.images.length} صور</span>
+                    <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10 shadow-lg">
+                        <Layers size={12} />
+                        <span className="font-medium">{currentImageIndex + 1} / {product.images.length}</span>
                     </div>
                 )}
             </div>
 
             {/* تفاصيل المنتج */}
-            <div className="p-5 flex-grow flex flex-col">
+            <div className="p-5 flex-grow flex flex-col relative bg-white dark:bg-gray-800">
                 <div onClick={onClick} className="cursor-pointer">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-primary transition-colors line-clamp-1">
                         {product.name}
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mb-4">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mb-4 min-h-[2.5rem]">
                         {product.description}
                     </p>
                 </div>
@@ -114,28 +115,28 @@ const ProductCard = ({ product, onClick, onAdd }: { product: Product, onClick: (
                 <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
                     <div>
                         {product.oldPrice && (
-                            <p className="text-xs text-gray-400 line-through font-medium">
+                            <p className="text-xs text-gray-400 line-through font-medium mb-0.5">
                                 {product.oldPrice.toLocaleString()} د.ج
                             </p>
                         )}
-                        <p className="text-lg font-extrabold text-primary">
-                            {product.price.toLocaleString()} <span className="text-xs font-normal text-gray-500">د.ج</span>
+                        <p className="text-xl font-extrabold text-primary">
+                            {product.price.toLocaleString()} <span className="text-xs font-normal text-gray-500 dark:text-gray-400">د.ج</span>
                         </p>
                     </div>
                     <div className="flex gap-2">
                         <button 
                             onClick={onClick}
-                            className="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-all"
+                            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-all"
                             title="التفاصيل"
                         >
                             <Eye size={20} />
                         </button>
                         <button 
                             onClick={onAdd}
-                            className="p-2 text-white bg-primary hover:bg-primary-dark rounded-full shadow-lg hover:shadow-primary/50 transition-all transform hover:-translate-y-1 active:translate-y-0"
+                            className="w-10 h-10 flex items-center justify-center text-white bg-primary hover:bg-primary-dark rounded-full shadow-lg hover:shadow-primary/50 transition-all transform hover:-translate-y-1 active:translate-y-0"
                             title="أضف للسلة"
                         >
-                            <ShoppingCart size={20} />
+                            <ShoppingCart size={18} />
                         </button>
                     </div>
                 </div>
@@ -158,19 +159,19 @@ const ProductList: React.FC<ProductListProps> = ({ onProductClick, onAddToCart }
     });
 
     return (
-        <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" id="products">
+        <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-300 min-h-screen" id="products">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-10">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 font-['Cairo']">
                         منتجاتنا المميزة
                     </h2>
-                    <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+                    <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-lg">
                         تصفح أحدث تصاميم الأبواب والنوافذ المصنوعة بأعلى معايير الجودة
                     </p>
                 </div>
                 
                 {/* Search Bar */}
-                <div className="max-w-md mx-auto mb-10 relative group">
+                <div className="max-w-md mx-auto mb-10 relative group z-20">
                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                         <Search className="h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                     </div>
