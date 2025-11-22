@@ -1,8 +1,15 @@
-
 import { Product, WorkItem, TeamMember } from './types';
 
 // =====================================================================
-// 🟢 منطقة تعديل البيانات
+// 🟢 شرح طريقة إضافة منتج جديد (لغير المبرمجين)
+// =====================================================================
+// 1. انسخ ما بين القوسين { } في الأسفل.
+// 2. الصقه في بداية القائمة (بعد القوس المربع [ مباشرة).
+// 3. غير البيانات (الاسم، السعر، الوصف).
+// 4. أهم نقطة: الصور يجب أن تكون روابط (Links).
+//    - ارفع صورتك على موقع مثل (imgbb.com).
+//    - انسخ "الرابط المباشر" للصورة.
+//    - ضعه مكان الرابط الموجود.
 // =====================================================================
 
 export const workGallery: WorkItem[] = [
@@ -23,6 +30,72 @@ export const workGallery: WorkItem[] = [
         type: 'video',
         url: "https://joy1.videvo.net/videvo_files/video/free/2019-11/large_watermarked/190301_1_25_11_preview.mp4",
         title: "عملية قص ليزر دقيقة للأبواب"
+    },
+    {
+        id: 2,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+        title: "باب حديدي مزخرف (تصميم كلاسيكي)"
+    },
+    {
+        id: 3,
+        type: 'video',
+        url: "https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Metal_Welding_1___264_Video_preview.mp4",
+        title: "تلحيم احترافي للهياكل المعدنية"
+    },
+    {
+        id: 4,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=800&q=80",
+        title: "دمج الخشب مع الحديد (أثاث عصري)"
+    },
+    {
+        id: 5,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1558002038-10914cba6b23?auto=format&fit=crop&w=800&q=80",
+        title: "بوابة ذكية أوتوماتيكية (Electronics)"
+    },
+    {
+        id: 6,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+        title: "ديكور ألومنيوم وبديل الرخام"
+    },
+    {
+        id: 7,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=800&q=80",
+        title: "درابزين سلالم حديدي عصري"
+    },
+    {
+        id: 8,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+        title: "أثاث معدني داخلي (تصميم خاص)"
+    },
+    {
+        id: 9,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80",
+        title: "لحام دقيق لأنابيب الضغط العالي"
+    },
+    {
+        id: 10,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+        title: "تركيب أبواب خارجية كبيرة"
+    },
+    {
+        id: 11,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+        title: "ورشة العمل والإنتاج"
+    },
+    {
+        id: 12,
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+        title: "تفاصيل زخرفة الليزر"
     }
 ];
 
@@ -32,62 +105,79 @@ export const teamMembers: TeamMember[] = [
         name: "نافع تومي",
         role: "المؤسس وكبير الحرفيين",
         image: "https://images.unsplash.com/photo-1537511446984-935f663eb1f4?auto=format&fit=crop&w=800&q=80",
-        bio: "خبرة تزيد عن 25 عاماً في فنون الحدادة وتشكيل المعادن."
+        bio: "خبرة تزيد عن 25 عاماً في فنون الحدادة وتشكيل المعادن. أسس الورشة بشغف لتحويل الحديد إلى قطع فنية."
+    },
+    {
+        id: 2,
+        name: "إبراهيم تومي",
+        role: "مدير التصميم والتطوير",
+        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
+        bio: "متخصص في التصميم الهندسي ودمج التكنولوجيا الحديثة (القص بالليزر والأنظمة الذكية) في منتجات الورشة."
+    },
+    {
+        id: 3,
+        name: "فريق التركيب التقني",
+        role: "قسم التركيب والصيانة",
+        image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80",
+        bio: "فريق محترف من الفنيين المهرة لضمان تركيب دقيق وآمن للمنتجات في جميع ولايات الجزائر."
     }
 ];
 
 export const products: Product[] = [
-    // ============================================================
-    // 🚪 قسم الأبواب الفاخرة (New Collection)
-    // ============================================================
-    
+    // 👇 مثال: يمكنك نسخ هذا الجزء وإلصاقه لتضيفي منتج جديد
+    /*
     {
-        id: 2001,
-        name: "البوابة الملكية (Royal Golden Gate)",
-        price: 6000000,
-        category: 'doors',
-        description: "فخامة مطلقة، حديد صلب مع زخرفة ذهبية راقية.",
-        longDescription: "تحفة فنية تجسد الفخامة والهيبة. هذا الباب ليس مجرد مدخل، بل هو عنوان لمنزلك. مصنوع من أجود أنواع الحديد الصلب (Heavy Duty) مع تقنيات القص بالليزر وزخارف يدوية دقيقة باللون الذهبي. يتميز بمتانة عالية جداً ضد الصدمات وعوامل الطبيعة، مع طلاء ناري خاص يضمن بقاء اللمعان لسنوات طويلة. مثالي للقصور والفيلات الراقية.",
+        id: 999, // غيري الرقم ليكون فريداً
+        name: "اسم المنتج هنا",
+        price: 50000, // السعر
+        category: 'doors', // التصنيف: doors, windows, wedding, home, tools
+        description: "وصف مختصر",
+        longDescription: "وصف طويل ومفصل للمنتج...",
         images: [
-            // ملاحظة: هذه الروابط تحتاج أن تكون روابط مباشرة للصورة (تنتهي بـ .jpg)
-            "https://ibb.co/B2qJ1XJS", 
-            "https://ibb.co/LXn8TM91", 
-            "https://ibb.co/wZRZkGbL",
-            "https://ibb.co/6RMyZYYy",
-            "https://ibb.co/PGY0NDt6"
+            "https://ضع_رابط_الصورة_الاولى_هنا.jpg",
+            "https://ضع_رابط_الصورة_الثانية_هنا.jpg"
         ]
     },
-    {
-        id: 2002,
-        name: "باب الزهرة العصرية (Modern Floral)",
-        price: 4500000, // سعر تقديري بناء على السوق
-        category: 'doors',
-        description: "تصميم انسيابي بلمسة طبيعية وعصرية.",
-        longDescription: "تصميم يجمع بين قوة الحديد ورقة الطبيعة. يتميز بنقوش زهرية متداخلة تم تنفيذها بدقة الليزر العالية، مما يسمح بمرور الضوء والهواء مع الحفاظ على الخصوصية الكاملة للمنزل. هذا التصميم يناسب المنازل العصرية التي تبحث عن التميز والابتعاد عن الأشكال التقليدية.",
-        images: [
-            "https://ibb.co/fzgjcmNS",
-            "https://ibb.co/whtWv0fm",
-            "https://ibb.co/KjpthMqh",
-            "https://ibb.co/4gMgLCQw"
-        ]
-    },
-    {
-        id: 2003,
-        name: "باب الأمان الهندسي (Geometric Shield)",
-        price: 3800000, // سعر تقديري
-        category: 'doors',
-        description: "صلابة قصوى بتصميم هندسي حديث.",
-        longDescription: "الخيار الأول للباحثين عن الأمان والمتانة. يعتمد هذا التصميم على الأشكال الهندسية المتناظرة التي تمنح الباب صلابة هيكلية إضافية. مطلي بدهان (Epoxy) مقاوم للخدش والصدأ، ومزود بأماكن لأقفال أمان متعددة النقاط. تصميم عملي جداً وجميل في نفس الوقت.",
-        images: [
-            "https://ibb.co/r1dnt1N",
-            "https://ibb.co/rRmtyBGJ",
-            "https://ibb.co/Kj1z1fLZ"
-        ]
-    },
+    */
+    // 👆 انتهى المثال
 
-    // ============================================================
-    // منتجات أخرى
-    // ============================================================
+    {
+        id: 1,
+        name: "باب حديد فاخر",
+        price: 120000,
+        oldPrice: 150000,
+        category: 'doors',
+        description: "تصميم عصري مع متانة عالية.",
+        longDescription: "باب حديدي فاخر مصنوع من أجود أنواع الحديد، بتصميم عصري يجمع بين الأمان والجمال. يحتوي على زخارف يدوية دقيقة، ومقاوم للعوامل الجوية. يمكن تصنيعه بأي قياس حسب طلبك.",
+        images: [
+            "https://i.ibb.co/23CtpD6J/image.jpg",
+            "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        id: 2,
+        name: "ماكينة لحام إنفيرتر 200A",
+        price: 40000,
+        oldPrice: 45000,
+        category: 'tools',
+        description: "أداء عالي وكفاءة طاقة ممتازة.",
+        longDescription: "ماكينة لحام إنفيرتر بقوة 200 أمبير، مناسبة للمحترفين والهواة. تتميز باستهلاك منخفض للطاقة، وسهولة في الحمل والتنقل.",
+        images: [
+            "https://images.unsplash.com/photo-1627883204909-67d4f9f4a9b0?auto=format&fit=crop&q=80&w=600&h=400"
+        ]
+    },
+    {
+        id: 3,
+        name: "ديكور زفاف حديدي",
+        price: 80000,
+        oldPrice: 95000,
+        category: 'wedding',
+        description: "لمسة فنية تضفي جمالاً على يومك الخاص.",
+        longDescription: "ديكورات زفاف حديدية فاخرة تُصنع خصيصًا ليومك الكبير. تشمل بوابات، خلفيات، وطاولات مزينة بزخارف راقية.",
+        images: [
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
+        ]
+    },
     {
         id: 4,
         name: "نافذة حديدية مزخرفة",
@@ -95,20 +185,20 @@ export const products: Product[] = [
         oldPrice: 120000,
         category: 'windows',
         description: "إضاءة طبيعية مع حماية وأناقة.",
-        longDescription: "نافذة حديدية مزخرفة تسمح بمرور الضوء الطبيعي مع الحفاظ على الخصوصية والأمان.",
+        longDescription: "نافذة حديدية مزخرفة تسمح بمرور الضوء الطبيعي مع الحفاظ على الخصوصية والأمان. الزخارف مصنوعة يدويًا بدقة عالية.",
         images: [
             "https://images.unsplash.com/photo-1503293284683-f90c7d622350?auto=format&fit=crop&w=800&q=80"
         ]
     },
     {
-        id: 3,
-        name: "ديكور زفاف حديدي",
-        price: 80000,
-        category: 'wedding',
-        description: "لمسة فنية تضفي جمالاً على يومك الخاص.",
-        longDescription: "ديكورات زفاف حديدية فاخرة تُصنع خصيصًا ليومك الكبير.",
+        id: 5,
+        name: "ديكور منزلي حديدي",
+        price: 70000,
+        category: 'home',
+        description: "قطع فنية تدوم لعقود في منزلك.",
+        longDescription: "ديكورات منزلية مصنوعة من الحديد المطاوع، تشمل رفوف، مصابيح، وطاولات جانبية. كل قطعة هي تحفة فنية.",
         images: [
-            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&w=800&q=80"
         ]
     }
 ];

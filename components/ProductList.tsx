@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { products } from '../data';
 import { Product } from '../types';
-import { Eye, ShoppingCart, Search, ChevronRight, ChevronLeft, Image as ImageIcon, Layers } from 'lucide-react';
+import { Eye, ShoppingCart, Search } from 'lucide-react';
 
 interface ProductListProps {
     onProductClick: (product: Product) => void;
@@ -18,133 +17,6 @@ const categories = [
     { id: 'tools', name: 'أدوات' },
 ];
 
-// مكون فرعي لبطاقة المنتج مع ألبوم صور داخلي
-const ProductCard = ({ product, onClick, onAdd }: { product: Product, onClick: () => void, onAdd: () => void }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
-
-    const nextImage = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-    };
-
-    const prevImage = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
-    };
-
-    return (
-        <div 
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 h-full"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-            {/* منطقة الصورة مع السلايدر */}
-            <div className="relative aspect-[4/5] bg-gray-100 dark:bg-gray-900 overflow-hidden">
-                <img 
-                    src={product.images[currentImageIndex]} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    onClick={onClick} // عند الضغط على الصورة نذهب للتفاصيل
-                    style={{ cursor: 'pointer' }}
-                    onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://placehold.co/600x800/202020/FFF?text=No+Image";
-                    }}
-                />
-                
-                {/* طبقة تدرج خفيفة في الأسفل لجعل النقاط واضحة */}
-                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 to-transparent opacity-60 pointer-events-none" />
-
-                {/* شارة التخفيض */}
-                {product.oldPrice && (
-                    <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-10 animate-pulse">
-                        تخفيض
-                    </div>
-                )}
-
-                {/* أزرار التنقل (تظهر فقط إذا كان هناك أكثر من صورة) */}
-                {product.images.length > 1 && (
-                    <>
-                        <button 
-                            onClick={nextImage}
-                            className={`absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-2 rounded-full transition-all duration-300 hover:scale-110 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
-                        >
-                            <ChevronRight size={24} />
-                        </button>
-                        <button 
-                            onClick={prevImage}
-                            className={`absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-2 rounded-full transition-all duration-300 hover:scale-110 ${isHovered ? 'opacity-100 -translate-x-0' : 'opacity-0 -translate-x-4'}`}
-                        >
-                            <ChevronLeft size={24} />
-                        </button>
-                        
-                        {/* مؤشر الصور (النقاط) */}
-                        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10">
-                            {product.images.map((_, idx) => (
-                                <div 
-                                    key={idx}
-                                    className={`h-1.5 rounded-full transition-all duration-300 shadow-sm backdrop-blur-sm ${
-                                        idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/40 w-1.5'
-                                    }`}
-                                />
-                            ))}
-                        </div>
-                    </>
-                )}
-
-                {/* أيقونة توضح أن المنتج يحتوي على ألبوم */}
-                {product.images.length > 1 && (
-                    <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10 shadow-lg">
-                        <Layers size={12} />
-                        <span className="font-medium">{currentImageIndex + 1} / {product.images.length}</span>
-                    </div>
-                )}
-            </div>
-
-            {/* تفاصيل المنتج */}
-            <div className="p-5 flex-grow flex flex-col relative bg-white dark:bg-gray-800">
-                <div onClick={onClick} className="cursor-pointer">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-primary transition-colors line-clamp-1">
-                        {product.name}
-                    </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mb-4 min-h-[2.5rem]">
-                        {product.description}
-                    </p>
-                </div>
-                
-                <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                    <div>
-                        {product.oldPrice && (
-                            <p className="text-xs text-gray-400 line-through font-medium mb-0.5">
-                                {product.oldPrice.toLocaleString()} د.ج
-                            </p>
-                        )}
-                        <p className="text-xl font-extrabold text-primary">
-                            {product.price.toLocaleString()} <span className="text-xs font-normal text-gray-500 dark:text-gray-400">د.ج</span>
-                        </p>
-                    </div>
-                    <div className="flex gap-2">
-                        <button 
-                            onClick={onClick}
-                            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-all"
-                            title="التفاصيل"
-                        >
-                            <Eye size={20} />
-                        </button>
-                        <button 
-                            onClick={onAdd}
-                            className="w-10 h-10 flex items-center justify-center text-white bg-primary hover:bg-primary-dark rounded-full shadow-lg hover:shadow-primary/50 transition-all transform hover:-translate-y-1 active:translate-y-0"
-                            title="أضف للسلة"
-                        >
-                            <ShoppingCart size={18} />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
 const ProductList: React.FC<ProductListProps> = ({ onProductClick, onAddToCart }) => {
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -159,41 +31,34 @@ const ProductList: React.FC<ProductListProps> = ({ onProductClick, onAddToCart }
     });
 
     return (
-        <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-300 min-h-screen" id="products">
+        <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-10">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 font-['Cairo']">
-                        منتجاتنا المميزة
-                    </h2>
-                    <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-lg">
-                        تصفح أحدث تصاميم الأبواب والنوافذ المصنوعة بأعلى معايير الجودة
-                    </p>
-                </div>
+                <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">منتجاتنا المميزة</h2>
                 
                 {/* Search Bar */}
-                <div className="max-w-md mx-auto mb-10 relative group z-20">
+                <div className="max-w-md mx-auto mb-8 relative">
                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                        <Search className="h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" />
+                        <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                     </div>
                     <input
                         type="text"
-                        className="block w-full pr-12 pl-4 py-4 border border-gray-200 dark:border-gray-700 rounded-2xl leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition shadow-sm group-hover:shadow-md"
-                        placeholder="ابحث عن منتج (مثال: باب فاخر، نافذة...)"
+                        className="block w-full pr-12 pl-4 py-3 border border-gray-300 dark:border-gray-600 rounded-full leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition shadow-sm"
+                        placeholder="ابحث عن منتج (مثال: باب، زفاف...)"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
 
                 {/* Categories */}
-                <div className="flex flex-wrap justify-center gap-3 mb-12">
+                <div className="flex flex-wrap justify-center gap-3 mb-10">
                     {categories.map(cat => (
                         <button
                             key={cat.id}
                             onClick={() => setActiveCategory(cat.id)}
-                            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 transform hover:-translate-y-1
+                            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 
                                 ${activeCategory === cat.id 
-                                    ? 'bg-primary text-white shadow-lg shadow-primary/30 ring-2 ring-primary ring-offset-2 ring-offset-gray-50 dark:ring-offset-gray-900' 
-                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'}`}
+                                    ? 'bg-primary text-white shadow-md' 
+                                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'}`}
                         >
                             {cat.name}
                         </button>
@@ -202,28 +67,69 @@ const ProductList: React.FC<ProductListProps> = ({ onProductClick, onAddToCart }
 
                 {/* Grid */}
                 {filteredProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {filteredProducts.map(product => (
-                            <ProductCard 
-                                key={product.id}
-                                product={product}
-                                onClick={() => onProductClick(product)}
-                                onAdd={() => onAddToCart(product)}
-                            />
+                            <div key={product.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-transparent dark:border-gray-700">
+                                <div className="relative h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                    <img 
+                                        src={product.images[0]} 
+                                        alt={product.name} 
+                                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    {product.oldPrice && (
+                                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                            تخفيض
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-5 flex-grow flex flex-col">
+                                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{product.name}</h3>
+                                    <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mb-4">{product.description}</p>
+                                    
+                                    <div className="mt-auto flex items-center justify-between">
+                                        <div>
+                                            {product.oldPrice && (
+                                                <p className="text-sm text-gray-400 line-through">
+                                                    {product.oldPrice.toLocaleString()} د.ج
+                                                </p>
+                                            )}
+                                            <p className="text-xl font-bold text-primary">
+                                                {product.price.toLocaleString()} د.ج
+                                            </p>
+                                        </div>
+                                        <div className="flex space-x-2 space-x-reverse">
+                                            <button 
+                                                onClick={() => onProductClick(product)}
+                                                className="p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-blue-50 dark:hover:bg-gray-700 rounded-full transition"
+                                                title="عرض التفاصيل"
+                                            >
+                                                <Eye size={20} />
+                                            </button>
+                                            <button 
+                                                onClick={() => onAddToCart(product)}
+                                                className="p-2 text-white bg-accent hover:bg-accent-dark rounded-full transition shadow-md"
+                                                title="أضف للسلة"
+                                            >
+                                                <ShoppingCart size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700">
-                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 mb-6">
-                            <Search className="h-10 w-10 text-gray-400 dark:text-gray-500" />
+                    <div className="text-center py-16">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+                            <Search className="h-8 w-8 text-gray-400 dark:text-gray-500" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">لا توجد نتائج</h3>
-                        <p className="text-gray-500 dark:text-gray-400 mb-6">لم نعثر على أي منتجات تطابق "{searchQuery}".</p>
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">لا توجد نتائج</h3>
+                        <p className="mt-2 text-gray-500 dark:text-gray-400">لم نعثر على أي منتجات تطابق "{searchQuery}".</p>
                         <button 
                             onClick={() => {setSearchQuery(''); setActiveCategory('all');}}
-                            className="text-primary font-bold hover:underline bg-primary/10 px-6 py-2 rounded-full transition-colors"
+                            className="mt-4 text-primary font-medium hover:underline"
                         >
-                            إظهار جميع المنتجات
+                            مسح البحث والعودة للكل
                         </button>
                     </div>
                 )}
