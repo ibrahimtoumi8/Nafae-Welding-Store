@@ -22,7 +22,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onChangeView, cartTotal, cart }) =>
         const formData = new FormData(form);
         
         // تجهيز تفاصيل السلة كنص واضح
-        const cartItems = Object.values(cart);
+        const cartItems = Object.values(cart) as CartItem[];
         const orderDetails = cartItems.map(item => 
             `- ${item.name} (الكمية: ${item.quantity}) - السعر: ${item.price} د.ج`
         ).join('\n');
